@@ -5,7 +5,7 @@
 }
 
 <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
+    <div class="col-md-10 col-lg-8">
         <div class="card shadow-sm">
             <div class="card-header bg-primary text-white">
                 <h4 class="mb-0">
@@ -21,12 +21,38 @@
                     </div>
                 }
 
-                <h5 class="mb-3">
-                    <i class="bi bi-universal-access me-2"></i>Accessibility
-                </h5>
-
                 <form asp-action="UpdateAccessibility" method="post" id="accessibilityForm">
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <!-- Theme Selection -->
+                    <div class="mb-4">
+                        <label asp-for="Theme" class="form-label fw-semibold">
+                            <i class="bi bi-palette me-1"></i>Theme
+                        </label>
+                        <p class="text-muted small mb-3">Choose a color theme for the app.</p>
+                        <div class="row g-2">
+                            @foreach (var option in AccessibilitySettingsViewModel.ThemeOptions)
+                            {
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <input type="radio" class="btn-check" name="Theme" id="theme-@option.Key"
+                                           value="@option.Key" data-preference="theme"
+                                           @(Model.Theme == option.Key ? "checked" : "")>
+                                    <label class="btn btn-outline-secondary w-100 text-start p-3 theme-option" for="theme-@option.Key">
+                                        <span class="theme-preview theme-preview-@option.Key d-block mb-2"></span>
+                                        <strong class="d-block">@option.Value.Name</strong>
+                                        <small class="text-muted">@option.Value.Description</small>
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                        <span asp-validation-for="Theme" class="text-danger"></span>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h5 class="mb-3">
+                        <i class="bi bi-universal-access me-2"></i>Accessibility
+                    </h5>
 
                     <div class="mb-4">
                         <label asp-for="FontSize" class="form-label fw-semibold">
@@ -64,17 +90,6 @@
 
                     <div class="mb-4">
                         <div class="form-check form-switch">
-                            <input asp-for="HighContrastMode" class="form-check-input"
-                                   data-preference="highcontrastmode" role="switch">
-                            <label asp-for="HighContrastMode" class="form-check-label fw-semibold">
-                                <i class="bi bi-circle-half me-1"></i>High Contrast Mode
-                            </label>
-                        </div>
-                        <p class="text-muted small ms-4 mt-1">Increase contrast for better visibility.</p>
-                    </div>
-
-                    <div class="mb-4">
-                        <div class="form-check form-switch">
                             <input asp-for="ReducedMotion" class="form-check-input"
                                    data-preference="reducedmotion" role="switch">
                             <label asp-for="ReducedMotion" class="form-check-label fw-semibold">
@@ -101,8 +116,8 @@
                     <i class="bi bi-eye me-2"></i>Preview
                 </h5>
                 <p class="card-text">
-                    This is sample text to preview your accessibility settings.
-                    You can see how your chosen font size and line spacing affect readability.
+                    This is sample text to preview your settings.
+                    You can see how your chosen theme, font size, and line spacing affect readability.
                 </p>
                 <p class="card-text">
                     <small class="text-muted">Settings are applied instantly for preview and saved when you click "Save Settings".</small>

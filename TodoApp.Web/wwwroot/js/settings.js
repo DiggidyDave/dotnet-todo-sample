@@ -8,7 +8,7 @@
     const preferenceToAttribute = {
         'fontsize': 'data-font-size',
         'linespacing': 'data-line-spacing',
-        'highcontrastmode': 'data-high-contrast',
+        'theme': 'data-theme',
         'reducedmotion': 'data-reduced-motion'
     };
 
@@ -17,15 +17,15 @@
         const attrName = preferenceToAttribute[key];
         if (!attrName) return;
 
-        if (key === 'highcontrastmode' || key === 'reducedmotion') {
-            // Boolean preferences
+        if (key === 'reducedmotion') {
+            // Boolean preference
             if (value === 'true' || value === true) {
                 html.setAttribute(attrName, 'true');
             } else {
                 html.removeAttribute(attrName);
             }
         } else {
-            // String preferences (fontsize, linespacing)
+            // String preferences (fontsize, linespacing, theme)
             html.setAttribute(attrName, value);
         }
     }
@@ -56,7 +56,7 @@
 
     // Initialize event listeners
     function init() {
-        // Handle radio button changes (font size, line spacing)
+        // Handle radio button changes (font size, line spacing, theme)
         document.querySelectorAll('input[type="radio"][data-preference]').forEach(radio => {
             radio.addEventListener('change', function () {
                 const key = this.dataset.preference;
@@ -66,7 +66,7 @@
             });
         });
 
-        // Handle checkbox/switch changes (high contrast, reduced motion)
+        // Handle checkbox/switch changes (reduced motion)
         document.querySelectorAll('input[type="checkbox"][data-preference]').forEach(checkbox => {
             checkbox.addEventListener('change', function () {
                 const key = this.dataset.preference;

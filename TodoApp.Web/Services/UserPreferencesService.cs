@@ -36,13 +36,13 @@ public class UserPreferencesService : IUserPreferencesService
         return preferences;
     }
 
-    public async Task UpdatePreferencesAsync(string userId, string fontSize, string lineSpacing, bool highContrastMode, bool reducedMotion)
+    public async Task UpdatePreferencesAsync(string userId, string fontSize, string lineSpacing, string theme, bool reducedMotion)
     {
         var preferences = await GetOrCreatePreferencesAsync(userId);
 
         preferences.FontSize = fontSize;
         preferences.LineSpacing = lineSpacing;
-        preferences.HighContrastMode = highContrastMode;
+        preferences.Theme = theme;
         preferences.ReducedMotion = reducedMotion;
         preferences.UpdatedAt = DateTime.UtcNow;
 
@@ -61,8 +61,8 @@ public class UserPreferencesService : IUserPreferencesService
             case "linespacing":
                 preferences.LineSpacing = value;
                 break;
-            case "highcontrastmode":
-                preferences.HighContrastMode = bool.Parse(value);
+            case "theme":
+                preferences.Theme = value;
                 break;
             case "reducedmotion":
                 preferences.ReducedMotion = bool.Parse(value);

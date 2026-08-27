@@ -39,7 +39,7 @@ public class SettingsController : Controller
         {
             FontSize = preferences.FontSize,
             LineSpacing = preferences.LineSpacing,
-            HighContrastMode = preferences.HighContrastMode,
+            Theme = preferences.Theme,
             ReducedMotion = preferences.ReducedMotion
         };
 
@@ -65,12 +65,12 @@ public class SettingsController : Controller
             userId,
             model.FontSize,
             model.LineSpacing,
-            model.HighContrastMode,
+            model.Theme,
             model.ReducedMotion);
 
         _logger.LogInformation("User {UserId} updated accessibility settings", userId);
 
-        TempData["SuccessMessage"] = "Accessibility settings saved successfully.";
+        TempData["SuccessMessage"] = "Settings saved successfully.";
         return RedirectToAction("Index");
     }
 

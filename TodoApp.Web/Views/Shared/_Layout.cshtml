@@ -8,7 +8,7 @@
 @{
     string fontSize = "medium";
     string lineSpacing = "normal";
-    bool highContrast = false;
+    string theme = "default";
     bool reducedMotion = false;
 
     if (SignInManager.IsSignedIn(User))
@@ -19,7 +19,7 @@
             var prefs = await PreferencesService.GetPreferencesAsync(user.Id);
             fontSize = prefs.FontSize;
             lineSpacing = prefs.LineSpacing;
-            highContrast = prefs.HighContrastMode;
+            theme = prefs.Theme;
             reducedMotion = prefs.ReducedMotion;
         }
     }
@@ -29,7 +29,7 @@
 <html lang="en"
       data-font-size="@fontSize"
       data-line-spacing="@lineSpacing"
-      @if (highContrast) { <text>data-high-contrast="true"</text> }
+      data-theme="@theme"
       @if (reducedMotion) { <text>data-reduced-motion="true"</text> }>
 <head>
     <meta charset="utf-8" />

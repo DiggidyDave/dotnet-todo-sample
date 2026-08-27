@@ -20,7 +20,8 @@ public class UserPreferences
     [MaxLength(20)]
     public string LineSpacing { get; set; } = "normal";
 
-    public bool HighContrastMode { get; set; } = false;
+    [MaxLength(30)]
+    public string Theme { get; set; } = "default";
 
     public bool ReducedMotion { get; set; } = false;
 

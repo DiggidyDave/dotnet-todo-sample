@@ -105,10 +105,9 @@ public class SettingsIntegrationTests : IClassFixture<CustomWebApplicationFactor
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var content = await response.Content.ReadAsStringAsync();
-        Assert.Contains("Accessibility", content);
+        Assert.Contains("Theme", content);
         Assert.Contains("Font Size", content);
         Assert.Contains("Line Spacing", content);
-        Assert.Contains("High Contrast Mode", content);
         Assert.Contains("Reduced Motion", content);
     }
 
@@ -129,7 +128,7 @@ public class SettingsIntegrationTests : IClassFixture<CustomWebApplicationFactor
             { "__RequestVerificationToken", antiForgeryToken },
             { "FontSize", "large" },
             { "LineSpacing", "relaxed" },
-            { "HighContrastMode", "true" },
+            { "Theme", "dark" },
             { "ReducedMotion", "true" }
         });
 
@@ -147,7 +146,7 @@ public class SettingsIntegrationTests : IClassFixture<CustomWebApplicationFactor
         Assert.NotNull(preferences);
         Assert.Equal("large", preferences.FontSize);
         Assert.Equal("relaxed", preferences.LineSpacing);
-        Assert.True(preferences.HighContrastMode);
+        Assert.Equal("dark", preferences.Theme);
         Assert.True(preferences.ReducedMotion);
     }
 
@@ -172,7 +171,7 @@ public class SettingsIntegrationTests : IClassFixture<CustomWebApplicationFactor
             { "__RequestVerificationToken", antiForgeryToken },
             { "FontSize", "medium" },
             { "LineSpacing", "normal" },
-            { "HighContrastMode", "false" },
+            { "Theme", "default" },
             { "ReducedMotion", "false" }
         });
 
@@ -181,7 +180,7 @@ public class SettingsIntegrationTests : IClassFixture<CustomWebApplicationFactor
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Contains("Accessibility settings saved successfully", content);
+        Assert.Contains("Settings saved successfully", content);
     }
 
     [Fact]
@@ -198,7 +197,7 @@ public class SettingsIntegrationTests : IClassFixture<CustomWebApplicationFactor
                 UserId = userId,
                 FontSize = "extra-large",
                 LineSpacing = "compact",
-                HighContrastMode = true,
+                Theme = "ocean",
                 ReducedMotion = true
             });
             await context.SaveChangesAsync();
@@ -229,7 +228,7 @@ public class SettingsIntegrationTests : IClassFixture<CustomWebApplicationFactor
                 UserId = userId,
                 FontSize = "large",
                 LineSpacing = "relaxed",
-                HighContrastMode = true,
+                Theme = "high-contrast-dark",
                 ReducedMotion = true
             });
             await context.SaveChangesAsync();
@@ -244,7 +243,7 @@ public class SettingsIntegrationTests : IClassFixture<CustomWebApplicationFactor
         // Assert - HTML should have data attributes
         Assert.Contains("data-font-size=\"large\"", content);
         Assert.Contains("data-line-spacing=\"relaxed\"", content);
-        Assert.Contains("data-high-contrast=\"true\"", content);
+        Assert.Contains("data-theme=\"high-contrast-dark\"", content);
         Assert.Contains("data-reduced-motion=\"true\"", content);
     }
 
@@ -262,7 +261,7 @@ public class SettingsIntegrationTests : IClassFixture<CustomWebApplicationFactor
         // Assert - Should have default values
         Assert.Contains("data-font-size=\"medium\"", content);
         Assert.Contains("data-line-spacing=\"normal\"", content);
-        // High contrast and reduced motion should not be present (false = no attribute)
+        Assert.Contains("data-theme=\"default\"", content);
     }
 
     [Fact]
@@ -299,7 +298,8 @@ public class SettingsIntegrationTests : IClassFixture<CustomWebApplicationFactor
             {
                 UserId = userId,
                 FontSize = "medium",
-                LineSpacing = "normal"
+                LineSpacing = "normal",
+                Theme = "default"
             });
             await context.SaveChangesAsync();
         }
@@ -311,11 +311,11 @@ public class SettingsIntegrationTests : IClassFixture<CustomWebApplicationFactor
         var settingsContent = await settingsPage.Content.ReadAsStringAsync();
         var antiForgeryToken = ExtractAntiForgeryToken(settingsContent);
 
-        // Act - Update just font size via AJAX endpoint
+        // Act - Update just theme via AJAX endpoint
         var request = new HttpRequestMessage(HttpMethod.Post, "/Settings/UpdatePreferenceAjax");
         request.Headers.Add("RequestVerificationToken", antiForgeryToken);
         request.Content = new StringContent(
-            "{\"key\":\"fontsize\",\"value\":\"extra-large\"}",
+            "{\"key\":\"theme\",\"value\":\"ocean\"}",
             System.Text.Encoding.UTF8,
             "application/json");
 
@@ -330,7 +330,7 @@ public class SettingsIntegrationTests : IClassFixture<CustomWebApplicationFactor
         using var verifyScope = _factory.Services.CreateScope();
         var verifyContext = verifyScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         var prefs = await verifyContext.UserPreferences.FirstAsync(p => p.UserId == userId);
-        Assert.Equal("extra-large", prefs.FontSize);
+        Assert.Equal("ocean", prefs.Theme);
         Assert.Equal("normal", prefs.LineSpacing); // Should be unchanged
     }
 }

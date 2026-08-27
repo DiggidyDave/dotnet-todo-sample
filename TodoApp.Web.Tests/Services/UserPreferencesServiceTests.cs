@@ -37,7 +37,7 @@ public class UserPreferencesServiceTests : IDisposable
         Assert.Equal(_testUserId, result.UserId);
         Assert.Equal("medium", result.FontSize);
         Assert.Equal("normal", result.LineSpacing);
-        Assert.False(result.HighContrastMode);
+        Assert.Equal("default", result.Theme);
         Assert.False(result.ReducedMotion);
     }
 
@@ -50,7 +50,7 @@ public class UserPreferencesServiceTests : IDisposable
             UserId = _testUserId,
             FontSize = "large",
             LineSpacing = "relaxed",
-            HighContrastMode = true,
+            Theme = "dark",
             ReducedMotion = true
         };
         _context.UserPreferences.Add(preferences);
@@ -62,7 +62,7 @@ public class UserPreferencesServiceTests : IDisposable
         // Assert
         Assert.Equal("large", result.FontSize);
         Assert.Equal("relaxed", result.LineSpacing);
-        Assert.True(result.HighContrastMode);
+        Assert.Equal("dark", result.Theme);
         Assert.True(result.ReducedMotion);
     }
 
@@ -104,13 +104,13 @@ public class UserPreferencesServiceTests : IDisposable
     public async Task UpdatePreferencesAsync_CreatesAndUpdatesPreferences()
     {
         // Act
-        await _service.UpdatePreferencesAsync(_testUserId, "extra-large", "compact", true, true);
+        await _service.UpdatePreferencesAsync(_testUserId, "extra-large", "compact", "high-contrast-dark", true);
 
         // Assert
         var result = await _context.UserPreferences.FirstAsync(p => p.UserId == _testUserId);
         Assert.Equal("extra-large", result.FontSize);
         Assert.Equal("compact", result.LineSpacing);
-        Assert.True(result.HighContrastMode);
+        Assert.Equal("high-contrast-dark", result.Theme);
         Assert.True(result.ReducedMotion);
     }
 
@@ -128,13 +128,13 @@ public class UserPreferencesServiceTests : IDisposable
         await _context.SaveChangesAsync();
 
         // Act
-        await _service.UpdatePreferencesAsync(_testUserId, "large", "relaxed", true, false);
+        await _service.UpdatePreferencesAsync(_testUserId, "large", "relaxed", "ocean", false);
 
         // Assert
         var result = await _context.UserPreferences.FirstAsync(p => p.UserId == _testUserId);
         Assert.Equal("large", result.FontSize);
         Assert.Equal("relaxed", result.LineSpacing);
-        Assert.True(result.HighContrastMode);
+        Assert.Equal("ocean", result.Theme);
         Assert.False(result.ReducedMotion);
         Assert.Single(_context.UserPreferences);
     }
@@ -144,6 +144,8 @@ public class UserPreferencesServiceTests : IDisposable
     [InlineData("fontsize", "large")]
     [InlineData("linespacing", "compact")]
     [InlineData("linespacing", "relaxed")]
+    [InlineData("theme", "dark")]
+    [InlineData("theme", "ocean")]
     public async Task UpdatePreferenceAsync_UpdatesStringPreference(string key, string value)
     {
         // Arrange
@@ -160,11 +162,11 @@ public class UserPreferencesServiceTests : IDisposable
             Assert.Equal(value, result.FontSize);
         else if (key == "linespacing")
             Assert.Equal(value, result.LineSpacing);
+        else if (key == "theme")
+            Assert.Equal(value, result.Theme);
     }
 
     [Theory]
-    [InlineData("highcontrastmode", "true", true)]
-    [InlineData("highcontrastmode", "false", false)]
     [InlineData("reducedmotion", "true", true)]
     [InlineData("reducedmotion", "false", false)]
     public async Task UpdatePreferenceAsync_UpdatesBooleanPreference(string key, string value, bool expected)
@@ -179,10 +181,7 @@ public class UserPreferencesServiceTests : IDisposable
 
         // Assert
         var result = await _context.UserPreferences.FirstAsync(p => p.UserId == _testUserId);
-        if (key == "highcontrastmode")
-            Assert.Equal(expected, result.HighContrastMode);
-        else if (key == "reducedmotion")
-            Assert.Equal(expected, result.ReducedMotion);
+        Assert.Equal(expected, result.ReducedMotion);
     }
 
     [Fact]

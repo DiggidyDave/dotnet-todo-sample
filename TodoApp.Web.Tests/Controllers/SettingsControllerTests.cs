@@ -67,7 +67,7 @@ public class SettingsControllerTests
             UserId = _testUser.Id,
             FontSize = "large",
             LineSpacing = "relaxed",
-            HighContrastMode = true,
+            Theme = "dark",
             ReducedMotion = false
         };
         _preferencesServiceMock.Setup(x => x.GetPreferencesAsync(_testUser.Id))
@@ -81,7 +81,7 @@ public class SettingsControllerTests
         var model = Assert.IsType<AccessibilitySettingsViewModel>(viewResult.Model);
         Assert.Equal("large", model.FontSize);
         Assert.Equal("relaxed", model.LineSpacing);
-        Assert.True(model.HighContrastMode);
+        Assert.Equal("dark", model.Theme);
         Assert.False(model.ReducedMotion);
     }
 
@@ -107,7 +107,7 @@ public class SettingsControllerTests
         {
             FontSize = "extra-large",
             LineSpacing = "compact",
-            HighContrastMode = true,
+            Theme = "high-contrast-dark",
             ReducedMotion = true
         };
         _controller.TempData = new Microsoft.AspNetCore.Mvc.ViewFeatures.TempDataDictionary(
@@ -122,7 +122,7 @@ public class SettingsControllerTests
         Assert.Equal("Index", redirectResult.ActionName);
 
         _preferencesServiceMock.Verify(x => x.UpdatePreferencesAsync(
-            _testUser.Id, "extra-large", "compact", true, true), Times.Once);
+            _testUser.Id, "extra-large", "compact", "high-contrast-dark", true), Times.Once);
     }
 
     [Fact]
@@ -163,7 +163,8 @@ public class SettingsControllerTests
         var model = new AccessibilitySettingsViewModel
         {
             FontSize = "medium",
-            LineSpacing = "normal"
+            LineSpacing = "normal",
+            Theme = "default"
         };
         _controller.TempData = new Microsoft.AspNetCore.Mvc.ViewFeatures.TempDataDictionary(
             _controller.HttpContext,
@@ -173,7 +174,7 @@ public class SettingsControllerTests
         await _controller.UpdateAccessibility(model);
 
         // Assert
-        Assert.Equal("Accessibility settings saved successfully.", _controller.TempData["SuccessMessage"]);
+        Assert.Equal("Settings saved successfully.", _controller.TempData["SuccessMessage"]);
     }
 
     [Fact]
@@ -182,8 +183,8 @@ public class SettingsControllerTests
         // Arrange
         var request = new SettingsController.UpdatePreferenceRequest
         {
-            Key = "fontsize",
-            Value = "large"
+            Key = "theme",
+            Value = "ocean"
         };
 
         // Act
@@ -191,7 +192,7 @@ public class SettingsControllerTests
 
         // Assert
         var jsonResult = Assert.IsType<JsonResult>(result);
-        _preferencesServiceMock.Verify(x => x.UpdatePreferenceAsync(_testUser.Id, "fontsize", "large"), Times.Once);
+        _preferencesServiceMock.Verify(x => x.UpdatePreferenceAsync(_testUser.Id, "theme", "ocean"), Times.Once);
     }
 
     [Fact]
