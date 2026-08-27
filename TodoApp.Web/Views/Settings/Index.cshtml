@@ -1,0 +1,118 @@
+@using TodoApp.Web.Models.ViewModels.Settings
+@model AccessibilitySettingsViewModel
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-gear me-2"></i>Settings
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-2"></i>@TempData["SuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <h5 class="mb-3">
+                    <i class="bi bi-universal-access me-2"></i>Accessibility
+                </h5>
+
+                <form asp-action="UpdateAccessibility" method="post" id="accessibilityForm">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="mb-4">
+                        <label asp-for="FontSize" class="form-label fw-semibold">
+                            <i class="bi bi-fonts me-1"></i>Font Size
+                        </label>
+                        <p class="text-muted small mb-2">Choose a font size that's comfortable for you to read.</p>
+                        <div class="btn-group w-100" role="group" aria-label="Font size selection">
+                            @foreach (var option in AccessibilitySettingsViewModel.FontSizeOptions)
+                            {
+                                <input type="radio" class="btn-check" name="FontSize" id="fontSize-@option.Key"
+                                       value="@option.Key" data-preference="fontsize"
+                                       @(Model.FontSize == option.Key ? "checked" : "")>
+                                <label class="btn btn-outline-primary" for="fontSize-@option.Key">@option.Value</label>
+                            }
+                        </div>
+                        <span asp-validation-for="FontSize" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="LineSpacing" class="form-label fw-semibold">
+                            <i class="bi bi-text-paragraph me-1"></i>Line Spacing
+                        </label>
+                        <p class="text-muted small mb-2">Adjust the spacing between lines of text.</p>
+                        <div class="btn-group w-100" role="group" aria-label="Line spacing selection">
+                            @foreach (var option in AccessibilitySettingsViewModel.LineSpacingOptions)
+                            {
+                                <input type="radio" class="btn-check" name="LineSpacing" id="lineSpacing-@option.Key"
+                                       value="@option.Key" data-preference="linespacing"
+                                       @(Model.LineSpacing == option.Key ? "checked" : "")>
+                                <label class="btn btn-outline-primary" for="lineSpacing-@option.Key">@option.Value</label>
+                            }
+                        </div>
+                        <span asp-validation-for="LineSpacing" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check form-switch">
+                            <input asp-for="HighContrastMode" class="form-check-input"
+                                   data-preference="highcontrastmode" role="switch">
+                            <label asp-for="HighContrastMode" class="form-check-label fw-semibold">
+                                <i class="bi bi-circle-half me-1"></i>High Contrast Mode
+                            </label>
+                        </div>
+                        <p class="text-muted small ms-4 mt-1">Increase contrast for better visibility.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check form-switch">
+                            <input asp-for="ReducedMotion" class="form-check-input"
+                                   data-preference="reducedmotion" role="switch">
+                            <label asp-for="ReducedMotion" class="form-check-label fw-semibold">
+                                <i class="bi bi-pause-circle me-1"></i>Reduced Motion
+                            </label>
+                        </div>
+                        <p class="text-muted small ms-4 mt-1">Disable animations and transitions.</p>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-check-lg me-2"></i>Save Settings
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-4">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-eye me-2"></i>Preview
+                </h5>
+                <p class="card-text">
+                    This is sample text to preview your accessibility settings.
+                    You can see how your chosen font size and line spacing affect readability.
+                </p>
+                <p class="card-text">
+                    <small class="text-muted">Settings are applied instantly for preview and saved when you click "Save Settings".</small>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/settings.js" asp-append-version="true"></script>
+}

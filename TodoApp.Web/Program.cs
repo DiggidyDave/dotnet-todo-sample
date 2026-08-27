@@ -47,6 +47,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
 builder.Services.AddTransient<IEmailService, EmailService>();
 
+// Register User Preferences Service
+builder.Services.AddScoped<IUserPreferencesService, UserPreferencesService>();
+
 // Add MVC
 builder.Services.AddControllersWithViews();
 

@@ -11,4 +11,6 @@ public class ApplicationUser : IdentityUser
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public virtual ICollection<TodoTask> Tasks { get; set; } = new List<TodoTask>();
+
+    public virtual UserPreferences? Preferences { get; set; }
 }

@@ -1,5 +1,36 @@
+@using Microsoft.AspNetCore.Identity
+@using TodoApp.Web.Models.Entities
+@using TodoApp.Web.Services
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IUserPreferencesService PreferencesService
+
+@{
+    string fontSize = "medium";
+    string lineSpacing = "normal";
+    bool highContrast = false;
+    bool reducedMotion = false;
+
+    if (SignInManager.IsSignedIn(User))
+    {
+        var user = await UserManager.GetUserAsync(User);
+        if (user != null)
+        {
+            var prefs = await PreferencesService.GetPreferencesAsync(user.Id);
+            fontSize = prefs.FontSize;
+            lineSpacing = prefs.LineSpacing;
+            highContrast = prefs.HighContrastMode;
+            reducedMotion = prefs.ReducedMotion;
+        }
+    }
+}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      data-font-size="@fontSize"
+      data-line-spacing="@lineSpacing"
+      @if (highContrast) { <text>data-high-contrast="true"</text> }
+      @if (reducedMotion) { <text>data-reduced-motion="true"</text> }>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

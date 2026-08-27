@@ -13,6 +13,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<TodoTask> Tasks { get; set; } = null!;
 
+    public DbSet<UserPreferences> UserPreferences { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -32,6 +34,16 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<ApplicationUser>(entity =>
         {
             entity.Property(u => u.Name).HasMaxLength(100);
+        });
+
+        builder.Entity<UserPreferences>(entity =>
+        {
+            entity.HasIndex(p => p.UserId).IsUnique();
+
+            entity.HasOne(p => p.User)
+                .WithOne(u => u.Preferences)
+                .HasForeignKey<UserPreferences>(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }
