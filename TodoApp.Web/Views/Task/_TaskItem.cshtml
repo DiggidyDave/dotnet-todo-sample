@@ -1,0 +1,38 @@
+@model TaskItemViewModel
+
+<div class="list-group-item task-item @(Model.Completed ? "task-completed" : "")" data-task-id="@Model.Id">
+    <div class="d-flex align-items-start">
+        <form asp-action="Toggle" asp-route-id="@Model.Id" method="post" class="toggle-form me-3">
+            <button type="submit" class="btn btn-link p-0 toggle-btn" title="@(Model.Completed ? "Mark as incomplete" : "Mark as complete")">
+                @if (Model.Completed)
+                {
+                    <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                }
+                else
+                {
+                    <i class="bi bi-circle text-secondary fs-4"></i>
+                }
+            </button>
+        </form>
+        <div class="flex-grow-1">
+            <h6 class="mb-1 @(Model.Completed ? "text-decoration-line-through text-muted" : "")">
+                @Model.Title
+            </h6>
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <p class="mb-1 small text-muted @(Model.Completed ? "text-decoration-line-through" : "")">
+                    @Model.Description
+                </p>
+            }
+            <small class="text-muted">
+                <i class="bi bi-clock me-1"></i>@Model.TimeAgo
+            </small>
+        </div>
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="delete-form ms-2">
+            <button type="submit" class="btn btn-link text-danger p-0 delete-btn" title="Delete task"
+                    onclick="return confirm('Are you sure you want to delete this task?');">
+                <i class="bi bi-trash fs-5"></i>
+            </button>
+        </form>
+    </div>
+</div>

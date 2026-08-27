@@ -1,0 +1,55 @@
+@{
+    ViewData["Title"] = "Welcome";
+}
+
+<div class="text-center py-5">
+    <h1 class="display-4">
+        <i class="bi bi-check2-square text-primary"></i>
+        Welcome to Todo App
+    </h1>
+    <p class="lead text-muted">
+        A simple and elegant task management application to help you stay organized.
+    </p>
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4">Get Started</h5>
+                    <div class="d-grid gap-3">
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg">
+                            <i class="bi bi-person-plus me-2"></i>Create an Account
+                        </a>
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary btn-lg">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 pt-4">
+        <div class="col-md-4">
+            <div class="p-3">
+                <i class="bi bi-lightning-charge text-primary fs-1"></i>
+                <h5 class="mt-3">Fast & Simple</h5>
+                <p class="text-muted">Create and manage tasks with just a few clicks.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3">
+                <i class="bi bi-shield-check text-primary fs-1"></i>
+                <h5 class="mt-3">Secure</h5>
+                <p class="text-muted">Your data is protected with industry-standard security.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3">
+                <i class="bi bi-phone text-primary fs-1"></i>
+                <h5 class="mt-3">Responsive</h5>
+                <p class="text-muted">Access your tasks from any device, anywhere.</p>
+            </div>
+        </div>
+    </div>
+</div>
