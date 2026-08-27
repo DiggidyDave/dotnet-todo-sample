@@ -71,7 +71,7 @@ public class TaskController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CreateTaskViewModel model)
+    public async Task<IActionResult> Create([Bind(Prefix = "CreateTask")] CreateTaskViewModel model)
     {
         if (!ModelState.IsValid)
         {
