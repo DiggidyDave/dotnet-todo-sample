@@ -123,6 +123,130 @@ html[data-high-contrast="true"] .footer {
     color: #ffffff;
 }
 
+/* High contrast card headers */
+html[data-high-contrast="true"] .card-header.bg-primary {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-bottom: 2px solid #000000;
+}
+
+/* High contrast buttons */
+html[data-high-contrast="true"] .btn-primary {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+html[data-high-contrast="true"] .btn-primary:hover,
+html[data-high-contrast="true"] .btn-primary:focus {
+    background-color: #333333 !important;
+    border-color: #000000 !important;
+    outline: 3px solid #000000;
+    outline-offset: 2px;
+}
+
+html[data-high-contrast="true"] .btn-outline-primary {
+    border-color: #000000 !important;
+    color: #000000 !important;
+    border-width: 2px;
+}
+
+html[data-high-contrast="true"] .btn-outline-primary:hover,
+html[data-high-contrast="true"] .btn-outline-primary:focus {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* High contrast badges - all black/white */
+html[data-high-contrast="true"] .badge {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 1px solid #000000;
+}
+
+html[data-high-contrast="true"] .badge.bg-warning {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* High contrast tabs */
+html[data-high-contrast="true"] .nav-tabs .nav-link {
+    color: #000000 !important;
+    border: 2px solid transparent;
+}
+
+html[data-high-contrast="true"] .nav-tabs .nav-link:hover {
+    border-color: #000000;
+    text-decoration: underline;
+}
+
+html[data-high-contrast="true"] .nav-tabs .nav-link.active {
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+    border-bottom-color: #ffffff !important;
+    font-weight: 700;
+}
+
+/* High contrast stats - remove colors, use bold black */
+html[data-high-contrast="true"] .text-primary,
+html[data-high-contrast="true"] .text-warning,
+html[data-high-contrast="true"] .text-success,
+html[data-high-contrast="true"] .text-info {
+    color: #000000 !important;
+}
+
+/* High contrast task icons */
+html[data-high-contrast="true"] .toggle-btn .bi-circle {
+    color: #000000 !important;
+}
+
+html[data-high-contrast="true"] .toggle-btn .bi-check-circle-fill {
+    color: #000000 !important;
+}
+
+html[data-high-contrast="true"] .delete-btn {
+    color: #000000 !important;
+}
+
+html[data-high-contrast="true"] .delete-btn:hover {
+    color: #000000 !important;
+    text-decoration: underline;
+}
+
+/* High contrast task item hover */
+html[data-high-contrast="true"] .task-item:hover {
+    background-color: #f0f0f0;
+    outline: 2px solid #000000;
+}
+
+html[data-high-contrast="true"] .task-item.task-completed {
+    background-color: #e0e0e0;
+}
+
+/* High contrast form focus states */
+html[data-high-contrast="true"] .form-control:focus {
+    border-color: #000000;
+    box-shadow: none;
+    outline: 3px solid #000000;
+    outline-offset: 1px;
+}
+
+html[data-high-contrast="true"] .form-check-input {
+    border-color: #000000;
+    border-width: 2px;
+}
+
+html[data-high-contrast="true"] .form-check-input:checked {
+    background-color: #000000;
+    border-color: #000000;
+}
+
+html[data-high-contrast="true"] .form-check-input:focus {
+    box-shadow: none;
+    outline: 3px solid #000000;
+    outline-offset: 1px;
+}
+
 /* Reduced motion */
 html[data-reduced-motion="true"],
 html[data-reduced-motion="true"] * {
