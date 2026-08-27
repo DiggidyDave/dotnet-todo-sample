@@ -72,7 +72,10 @@ html[data-high-contrast="true"] body {
     color: var(--text-color);
 }
 
-html[data-high-contrast="true"] a {
+/* High contrast links - exclude navbar which has its own scheme */
+html[data-high-contrast="true"] main a,
+html[data-high-contrast="true"] .card a,
+html[data-high-contrast="true"] footer a {
     color: var(--link-color);
     text-decoration: underline;
 }
@@ -97,12 +100,27 @@ html[data-high-contrast="true"] .form-control {
     border-width: 2px;
 }
 
+/* High contrast navbar - black background, white text for maximum contrast */
 html[data-high-contrast="true"] .navbar {
-    border-bottom: 3px solid #000000;
+    background-color: #000000 !important;
+    border-bottom: 3px solid #ffffff;
+}
+
+html[data-high-contrast="true"] .navbar .navbar-brand,
+html[data-high-contrast="true"] .navbar .nav-link {
+    color: #ffffff !important;
+}
+
+html[data-high-contrast="true"] .navbar .nav-link:hover,
+html[data-high-contrast="true"] .navbar .nav-link:focus {
+    color: #ffff00 !important;
+    text-decoration: underline;
 }
 
 html[data-high-contrast="true"] .footer {
-    border-top: 3px solid #000000;
+    background-color: #000000 !important;
+    border-top: 3px solid #ffffff;
+    color: #ffffff;
 }
 
 /* Reduced motion */
